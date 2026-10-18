@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products</title>
+</head>
+
+<body>
+    <button onclick="getProductsFromServer()">get all products</button>
+    <ul id="list"></ul>
+    <script>
+        const getProductsFromServer = async () => {
+            try {
+                // fetch פונקצית ששולחת בקשה לשרת
+                // GET ברירת מחדל
+                const response = await fetch('http://localhost:4000/products');
+                // console.log(response);
+                if (response.ok) {
+                    // מתוך התגובה תקבל את כל מה שחזר כאוביקט
+                    const myArr = await response.json();
+                    console.log(myArr);
+
+                    const ul = document.querySelector('#list');
+                    for (let i = 0; i < myArr.length; i++) {
+                        ul.innerHTML += `<li>${myArr[i].name}</li>`;
+                    }
+                } else {
+                    console.log('שגיאה של סטטוס מהשרת');
+                }
+            } catch (error) {
+                console.log('שגיאה בהתחברות לשרת');
+            }
+        };
+    </script>
+</body>
+
+</html>
